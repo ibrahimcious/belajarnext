@@ -6,6 +6,6 @@
     @apply border rounded-lg p-2 shadow-sm w-full block;
   }
   button {
-    @apply bg-indigo-600 text-white p-2 shadow-sm rounded-lg;
+    @apply bg-indigo-600 text-white p-2 shadow-sm rounded-lg disabled:opacity-25 disabled:cursor-wait;
   }
 }

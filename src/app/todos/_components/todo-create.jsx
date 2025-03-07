@@ -1,25 +1,18 @@
-import { API_URL } from "@/constants/api-url";
-import { revalidatePath } from "next/cache";
+"use client";
+import { useActionState } from "react";
+import { createTodoAction } from "../_actions/todo-create";
 export const TodoCreate = () => {
-  async function createTodoAction(formData) {
-    "use server";
-    const title = formData.get("title");
-    const content = formData.get("content");
-    const res = await fetch(API_URL, {
-      method: "POST",
-      body: JSON.stringify([{ name: title, age: content }]),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    revalidatePath("/");
-  }
+  const [state, formAction, pending] = useActionState(createTodoAction, null);
+  console.log(state);
   return (
     <section>
-      <form className="space-y-2" action={createTodoAction}>
+      <form className="space-y-2" action={formAction}>
         <input name="title" placeholder="Input your title" />
         <textarea name="content" placeholder="Content..." />
-        <button>Create todo</button>
+        <button disabled={pending}>Create todo</button>
+        {state?.message ? (
+          <div className="text-red-600">{state.message}</div>
+        ) : null}
       </form>
     </section>
   );
